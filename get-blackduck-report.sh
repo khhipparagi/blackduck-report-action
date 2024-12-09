@@ -70,11 +70,11 @@ function get_scan_status {
       --header "Authorization: Bearer $bearer_token" \
       --header 'Content-Type: application/json')
     scan_status=$(echo "$result" | jq -r '.items[] | select(.status[] | .operationNameCode == "ServerScanning" and .status != "COMPLETED")')
-    echo "| - scan_status: [$scan_status]"
     if [ -z "$scan_status" ];
     then
       scan_status="COMPLETED"
-      echo "| - scan_status: [$scan_status] is empty"
+    else
+      scan_status="IN_PROGRESS"
     fi
     echo "| - scan_status: $scan_status"
   done
